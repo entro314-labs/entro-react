@@ -19,7 +19,7 @@
     "directory": "entro-react"
   },
   "bugs": {
-    "url": "https://github.com/entro314labs/entrolytics-system/issues"
+    "url": "https://github.com/entro314labs/entro-react/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",

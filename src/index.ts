@@ -8,14 +8,18 @@ export type { TrackEventProps } from './components/TrackEvent.js';
 export { TrackEvent } from './components/TrackEvent.js';
 
 // Provider & Context
-export type { EntrolyticsProviderProps, EntrolyticsConfig, EntrolyticsContextValue, EventData } from './context.js';
+export type {
+  EntrolyticsConfig,
+  EntrolyticsContextValue,
+  EntrolyticsProviderProps,
+  EventData,
+} from './context.js';
 export { EntrolyticsProvider, useEntrolyticsContext } from './context.js';
 
 // Hooks
 export { useEntrolytics } from './hooks/useEntrolytics.js';
 export { useIdentify } from './hooks/useIdentify.js';
 export { useTrackEvent } from './hooks/useTrackEvent.js';
+export { useTrackOutboundLink } from './hooks/useTrackOutboundLink.js';
 export { useTrackPageView } from './hooks/useTrackPageView.js';
 export { useTrackRevenue } from './hooks/useTrackRevenue.js';
-export { useTrackOutboundLink } from './hooks/useTrackOutboundLink.js';
-

@@ -1,5 +1,13 @@
 import type { ReactNode } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 const DEFAULT_HOST = 'https://cloud.entrolytics.click';
 const SCRIPT_ID = 'entrolytics-script';
@@ -133,7 +141,17 @@ export function EntrolyticsProvider({
         existingScript.remove();
       }
     };
-  }, [websiteId, host, autoTrack, respectDnt, domains, useEdgeRuntime, tag, excludeSearch, excludeHash]);
+  }, [
+    websiteId,
+    host,
+    autoTrack,
+    respectDnt,
+    domains,
+    useEdgeRuntime,
+    tag,
+    excludeSearch,
+    excludeHash,
+  ]);
 
   const waitForTracker = useCallback((callback: () => void) => {
     if (typeof window === 'undefined') return;
@@ -149,70 +167,88 @@ export function EntrolyticsProvider({
     tryExecute();
   }, []);
 
-  const track = useCallback((eventName: string, eventData?: EventData) => {
-    waitForTracker(() => {
-      let payload: unknown = { name: eventName, data: eventData };
+  const track = useCallback(
+    (eventName: string, eventData?: EventData) => {
+      waitForTracker(() => {
+        let payload: unknown = { name: eventName, data: eventData };
 
-      if (beforeSend) {
-        payload = beforeSend('event', payload);
-        if (payload === null) return;
-      }
+        if (beforeSend) {
+          payload = beforeSend('event', payload);
+          if (payload === null) return;
+        }
 
-      if (tagRef.current) {
-        (payload as Record<string, unknown>).tag = tagRef.current;
-      }
+        if (tagRef.current) {
+          (payload as Record<string, unknown>).tag = tagRef.current;
+        }
 
-      window.entrolytics?.track(eventName, eventData);
-    });
-  }, [waitForTracker, beforeSend]);
-
-  const trackPageView = useCallback((url?: string, referrer?: string) => {
-    waitForTracker(() => {
-      const payload: Record<string, unknown> = {};
-      if (url) payload.url = url;
-      if (referrer) payload.referrer = referrer;
-      if (tagRef.current) payload.tag = tagRef.current;
-
-      window.entrolytics?.track(payload);
-    });
-  }, [waitForTracker]);
-
-  const trackRevenue = useCallback((eventName: string, revenue: number, currency = 'USD', data?: EventData) => {
-    waitForTracker(() => {
-      const eventData: EventData = {
-        ...data,
-        revenue,
-        currency,
-      };
-
-      if (tagRef.current) {
-        eventData.tag = tagRef.current;
-      }
-
-      window.entrolytics?.track(eventName, eventData);
-    });
-  }, [waitForTracker]);
-
-  const trackOutboundLink = useCallback((url: string, data?: EventData) => {
-    waitForTracker(() => {
-      window.entrolytics?.track('outbound-link-click', {
-        ...data,
-        url,
+        window.entrolytics?.track(eventName, eventData);
       });
-    });
-  }, [waitForTracker]);
+    },
+    [waitForTracker, beforeSend],
+  );
 
-  const identify = useCallback((data: EventData) => {
-    waitForTracker(() => {
-      window.entrolytics?.identify(data);
-    });
-  }, [waitForTracker]);
+  const trackPageView = useCallback(
+    (url?: string, referrer?: string) => {
+      waitForTracker(() => {
+        const payload: Record<string, unknown> = {};
+        if (url) payload.url = url;
+        if (referrer) payload.referrer = referrer;
+        if (tagRef.current) payload.tag = tagRef.current;
 
-  const identifyUser = useCallback((userId: string, traits?: EventData) => {
-    waitForTracker(() => {
-      window.entrolytics?.identify({ id: userId, ...traits });
-    });
-  }, [waitForTracker]);
+        window.entrolytics?.track(payload);
+      });
+    },
+    [waitForTracker],
+  );
+
+  const trackRevenue = useCallback(
+    (eventName: string, revenue: number, currency = 'USD', data?: EventData) => {
+      waitForTracker(() => {
+        const eventData: EventData = {
+          ...data,
+          revenue,
+          currency,
+        };
+
+        if (tagRef.current) {
+          eventData.tag = tagRef.current;
+        }
+
+        window.entrolytics?.track(eventName, eventData);
+      });
+    },
+    [waitForTracker],
+  );
+
+  const trackOutboundLink = useCallback(
+    (url: string, data?: EventData) => {
+      waitForTracker(() => {
+        window.entrolytics?.track('outbound-link-click', {
+          ...data,
+          url,
+        });
+      });
+    },
+    [waitForTracker],
+  );
+
+  const identify = useCallback(
+    (data: EventData) => {
+      waitForTracker(() => {
+        window.entrolytics?.identify(data);
+      });
+    },
+    [waitForTracker],
+  );
+
+  const identifyUser = useCallback(
+    (userId: string, traits?: EventData) => {
+      waitForTracker(() => {
+        window.entrolytics?.identify({ id: userId, ...traits });
+      });
+    },
+    [waitForTracker],
+  );
 
   const setTag = useCallback((newTag: string) => {
     tagRef.current = newTag;
@@ -220,7 +256,18 @@ export function EntrolyticsProvider({
 
   const value = useMemo<EntrolyticsContextValue>(
     () => ({
-      config: { websiteId, host, autoTrack, respectDnt, domains, useEdgeRuntime, tag, excludeSearch, excludeHash, beforeSend },
+      config: {
+        websiteId,
+        host,
+        autoTrack,
+        respectDnt,
+        domains,
+        useEdgeRuntime,
+        tag,
+        excludeSearch,
+        excludeHash,
+        beforeSend,
+      },
       isLoaded: isLoadedRef.current,
       isReady,
       track,
@@ -231,7 +278,26 @@ export function EntrolyticsProvider({
       identifyUser,
       setTag,
     }),
-    [websiteId, host, autoTrack, respectDnt, domains, useEdgeRuntime, tag, excludeSearch, excludeHash, beforeSend, isReady, track, trackPageView, trackRevenue, trackOutboundLink, identify, identifyUser, setTag],
+    [
+      websiteId,
+      host,
+      autoTrack,
+      respectDnt,
+      domains,
+      useEdgeRuntime,
+      tag,
+      excludeSearch,
+      excludeHash,
+      beforeSend,
+      isReady,
+      track,
+      trackPageView,
+      trackRevenue,
+      trackOutboundLink,
+      identify,
+      identifyUser,
+      setTag,
+    ],
   );
 
   return <EntrolyticsContext.Provider value={value}>{children}</EntrolyticsContext.Provider>;
