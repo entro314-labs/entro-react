@@ -17,32 +17,23 @@ import { useEntrolyticsContext } from '../context.js';
  *
  * @example
  * ```tsx
- * // With additional data
+ * // With referrer tracking
  * function PageTracker() {
  *   const location = useLocation();
- *   useTrackPageView(location.pathname, {
- *     title: document.title,
- *     referrer: document.referrer
- *   });
+ *   useTrackPageView(location.pathname, document.referrer);
  *   return null;
  * }
  * ```
  */
-export function useTrackPageView(
-  url: string,
-  data?: Record<string, unknown>
-) {
-  const { track } = useEntrolyticsContext();
-  const prevUrlRef = useRef<string>();
+export function useTrackPageView(url: string, referrer?: string) {
+  const { trackPageView } = useEntrolyticsContext();
+  const prevUrlRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     // Only track if URL changed
     if (prevUrlRef.current === url) return;
     prevUrlRef.current = url;
 
-    track('pageview', {
-      url,
-      ...data,
-    });
-  }, [url, data, track]);
+    trackPageView(url, referrer);
+  }, [url, referrer, trackPageView]);
 }

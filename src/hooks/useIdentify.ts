@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import type { EventData } from '../context.js';
 import { useEntrolyticsContext } from '../context.js';
 
 /**
@@ -25,12 +26,12 @@ import { useEntrolyticsContext } from '../context.js';
  * ```
  */
 export function useIdentify() {
-  const { identify } = useEntrolyticsContext();
+  const { identifyUser } = useEntrolyticsContext();
 
   return useCallback(
-    (userId: string, traits?: Record<string, unknown>) => {
-      identify(userId, traits);
+    (userId: string, traits?: EventData) => {
+      identifyUser(userId, traits);
     },
-    [identify]
+    [identifyUser],
   );
 }

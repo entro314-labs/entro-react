@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
 import type { AnchorHTMLAttributes, MouseEvent } from 'react';
+import { useCallback } from 'react';
 import { useEntrolyticsContext } from '../context.js';
 
 export interface OutboundLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -53,7 +53,7 @@ export function OutboundLink({
         onClick(e);
       }
     },
-    [event, href, data, track, onClick]
+    [event, href, data, track, onClick],
   );
 
   return (
