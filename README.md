@@ -15,13 +15,14 @@ pnpm add @entro314labs/entro-react
 ## Quick Start
 
 ```tsx
-import { EntrolyticsProvider, useTrackEvent } from '@entro314labs/entro-react';
+import { Analytics, useTrackEvent } from '@entro314labs/entro-react';
 
 function App() {
   return (
-    <EntrolyticsProvider websiteId="your-website-id">
+    <>
       <YourApp />
-    </EntrolyticsProvider>
+      <Analytics />
+    </>
   );
 }
 
@@ -36,7 +37,37 @@ function CheckoutButton() {
 }
 ```
 
+The `<Analytics />` component automatically reads from your `.env` file:
+
+```bash
+# Create React App
+REACT_APP_ENTROLYTICS_WEBSITE_ID=your-website-id
+REACT_APP_ENTROLYTICS_HOST=https://entrolytics.click
+
+# Vite
+VITE_ENTROLYTICS_WEBSITE_ID=your-website-id
+VITE_ENTROLYTICS_HOST=https://entrolytics.click
+```
+
 ## API Reference
+
+### Analytics
+
+Zero-config component (recommended):
+
+```tsx
+<Analytics />
+```
+
+With optional configuration:
+
+```tsx
+<Analytics
+  autoTrack={true}
+  respectDnt={false}
+  domains={['example.com']}
+/>
+```
 
 ### EntrolyticsProvider
 

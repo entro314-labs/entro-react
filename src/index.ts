@@ -1,4 +1,6 @@
 // Components
+export type { AnalyticsProps } from './components/Analytics.js';
+export { Analytics } from './components/Analytics.js';
 export type { OutboundLinkProps } from './components/OutboundLink.js';
 export { OutboundLink } from './components/OutboundLink.js';
 export type { TrackClickProps } from './components/TrackClick.js';
